@@ -124,6 +124,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\BdConnection.cs" />
     <Compile Include="Data\CategoriaData.cs" />
+    <Compile Include="Data\EstadoTicketData.cs" />
     <Compile Include="Data\RoleData.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

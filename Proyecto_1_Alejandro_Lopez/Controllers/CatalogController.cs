@@ -38,5 +38,16 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
                 list = categoriaList
             }, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetEstadoTicketList()
+        {
+
+            List<EstadoTicket> estadoTicketList = EstadoTicketData.getInstance().GetEstadoTickets();
+
+            return Json(new
+            {
+                status = 200,
+                list = estadoTicketList
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
