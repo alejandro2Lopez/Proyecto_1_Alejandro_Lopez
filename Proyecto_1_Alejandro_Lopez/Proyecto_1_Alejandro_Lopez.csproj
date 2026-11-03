@@ -123,10 +123,13 @@
     <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\BdConnection.cs" />
+    <Compile Include="Data\CategoriaData.cs" />
     <Compile Include="Data\RoleData.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\Categoria.cs" />
+    <Compile Include="Models\Entities\EstadoTicket.cs" />
     <Compile Include="Models\Entities\Role.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

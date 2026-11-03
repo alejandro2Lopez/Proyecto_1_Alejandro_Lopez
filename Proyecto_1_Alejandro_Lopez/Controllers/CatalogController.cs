@@ -27,5 +27,16 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
                 list = roleList
             }, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetCategoriaList()
+        {
+
+            List<Categoria> categoriaList = CategoriaData.getInstance().GetCategorias();
+
+            return Json(new
+            {
+                status = 200,
+                list = categoriaList
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
