@@ -41,7 +41,7 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
         public JsonResult GetEstadoTicketList()
         {
 
-            List<EstadoTicket> estadoTicketList = EstadoTicketData.getInstance().GetEstadoTickets();
+            List<EstadoTicket> estadoTicketList = TicketData.getInstance().GetEstadoTickets();
 
             return Json(new
             {

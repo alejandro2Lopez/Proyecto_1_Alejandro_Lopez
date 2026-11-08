@@ -122,10 +122,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CatalogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Data\BdConnection.cs" />
     <Compile Include="Data\CategoriaData.cs" />
-    <Compile Include="Data\EstadoTicketData.cs" />
+    <Compile Include="Data\TicketData.cs" />
     <Compile Include="Data\RoleData.cs" />
     <Compile Include="Data\UsuarioData.cs" />
     <Compile Include="Global.asax.cs">
@@ -194,6 +195,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Catalog\" />
+    <Folder Include="Views\Ticket\" />
     <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <ItemGroup>
