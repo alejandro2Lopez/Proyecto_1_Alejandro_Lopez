@@ -17,7 +17,7 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
         }
 
         [HttpPost]
-        public ActionResult InsertarUsuario(Ticket ticket)
+        public ActionResult InsertarTicket(Ticket ticket)
         {
             bool result = TicketData.getInstance().CrearTicket(ticket);
             if (result)
@@ -32,10 +32,45 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
             {
                 return Json(new
                 {
-                    status = 404,
+                    status = 500,
                     message = "Ha ocurrido un error al ingresar el Ticket"
                 }, JsonRequestBehavior.AllowGet);
             }
+
+        }
+        [HttpPost]
+        public ActionResult AgregarComentarioTicket(Comentario comentario)
+        {
+            bool result = TicketData.getInstance().AgregarComentario(comentario);
+            if (result)
+            {
+                return Json(new
+                {
+                    status = 200,
+                    message = "Comentario agregado manera exitosa"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    status = 500,
+                    message = "Ha ocurrido un error al ingresar el comentario"
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        [HttpPost]
+        public ActionResult GetComentariosId(int id)
+        {
+            List<Comentario> result = TicketData.getInstance().GetComentariosPorId(id);
+           
+                return Json(new
+                {
+                    status = 200,
+                    message = result
+                }, JsonRequestBehavior.AllowGet);
+           
 
         }
     }

@@ -11,6 +11,6 @@ namespace Proyecto_1_Alejandro_Lopez.Models.Entities
         public int id_ticket { get; set; }
         public int id_usuario { get; set; }
         public string texto { get; set; }
-        public DateTime fecha { get; set; }
+        public String fecha { get; set; }
     }
 }
