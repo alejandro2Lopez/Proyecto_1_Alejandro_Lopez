@@ -16,5 +16,9 @@ namespace Proyecto_1_Alejandro_Lopez.Models.Entities
         public DateTime fecha_actualizacion { get; set; }
         public byte fk_id_categoria { get; set; }
         public byte fk_id_estado_ticket { get; set; }
+
+        // Atributos adicionales de la vista
+        public string usuarioSolicitante { get; set; }
+        public string UsuarioAsignado { get; set; }
     }
 }

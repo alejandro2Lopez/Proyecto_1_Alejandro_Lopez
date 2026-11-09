@@ -60,7 +60,7 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
             }
 
         }
-        [HttpPost]
+        [HttpGet]
         public ActionResult GetComentariosId(int id)
         {
             List<Comentario> result = TicketData.getInstance().GetComentariosPorId(id);
@@ -71,6 +71,41 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
                     message = result
                 }, JsonRequestBehavior.AllowGet);
            
+
+        }
+        [HttpGet]
+        public ActionResult GetListaTicket()
+        {
+            List<Ticket> result = TicketData.getInstance().GetTickets();
+
+            return Json(new
+            {
+                status = 200,
+                message = result
+            }, JsonRequestBehavior.AllowGet);
+
+
+        }
+        [HttpPost]
+        public ActionResult ActualizarTicket(Ticket ticket)
+        {
+            bool result = TicketData.getInstance().ActualizarTicket(ticket);
+            if (result)
+            {
+                return Json(new
+                {
+                    status = 200,
+                    message = "Ticket actualizado manera exitosa"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    status = 500,
+                    message = "Ha ocurrido un error al actualizar el Ticket"
+                }, JsonRequestBehavior.AllowGet);
+            }
 
         }
     }

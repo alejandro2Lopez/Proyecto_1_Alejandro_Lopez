@@ -63,8 +63,8 @@ namespace Proyecto_1_Alejandro_Lopez.Data
 
             return EstadoTickets;
         }
-    
-            public bool CrearTicket(Ticket ticket)
+
+        public bool CrearTicket(Ticket ticket)
         {
             try
             {
@@ -87,8 +87,8 @@ namespace Proyecto_1_Alejandro_Lopez.Data
                         SqlDbType.NVarChar, 100).Value = ticket.fk_id_usuario_solicitante;
                     comando.Parameters.Add("@fk_id_categoria",
                        SqlDbType.NVarChar, 100).Value = ticket.fk_id_usuario_solicitante;
-                    comando.Parameters.Add("@fk_id_usuario_asignado",
-                        SqlDbType.TinyInt).Value = 1 ;
+
+
 
                     conexion.Open();
 
@@ -123,7 +123,7 @@ namespace Proyecto_1_Alejandro_Lopez.Data
 
                     comando.Parameters.Add("@texto",
                         SqlDbType.NVarChar, 100).Value = comentario.texto;
-                  
+
 
                     conexion.Open();
 
@@ -184,6 +184,109 @@ namespace Proyecto_1_Alejandro_Lopez.Data
             return comentarios;
         }
 
-    }
+        public List<Ticket> GetTickets()
+        {
+            List<Ticket> tickets = new List<Ticket>();
+
+            string cadena = ConfigurationManager
+                .ConnectionStrings["ConexionBD"]
+                .ConnectionString;
+
+            using (SqlConnection conexion = new SqlConnection(cadena))
+            {
+                string query = @"SELECT * FROM [dbo].[vw_TicketsDetalle]";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    conexion.Open();
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Ticket ticket = new Ticket
+                            {
+                                id_ticket = Convert.ToInt32(reader["id_ticket"]),
+
+                                titulo = reader["titulo"].ToString(),
+
+                                descripcion = reader["descripcion"].ToString(),
+
+                                fk_id_usuario_solicitante = Convert.ToInt32(
+                                    reader["fk_id_usuario_solicitante"]),
+
+                                fk_id_usuario_asignado =
+                                    reader["fk_id_usuario_asignado"] == DBNull.Value
+                                    ? (int?)null
+                                    : Convert.ToInt32(reader["fk_id_usuario_asignado"]),
+
+                                fecha_creacion = Convert.ToDateTime(
+                                    reader["fecha_creacion"]),
+
+                                fecha_actualizacion =
+                                    (DateTime)(reader["fecha_actualizacion"] == DBNull.Value
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(reader["fecha_actualizacion"])),
+
+                                fk_id_categoria = Convert.ToByte(
+                                    reader["fk_id_categoria"]),
+
+                                fk_id_estado_ticket = Convert.ToByte(
+                                    reader["fk_id_estado_ticket"]),
+
+                                usuarioSolicitante =
+                                    reader["usuarioSolicitante"].ToString(),
+
+                                UsuarioAsignado =
+                                    reader["UsuarioAsignado"].ToString()
+                            };
+
+                            tickets.Add(ticket);
+                        }
+                    }
+                }
+            }
+
+            return tickets;
+        }
+
+
+
+        public bool ActualizarTicket(Ticket ticket)
+        {
+            try
+            {
+                string cadenaConexion = ConfigurationManager
+                    .ConnectionStrings["ConexionBD"]
+                    .ConnectionString;
+                using (SqlConnection conexion = new SqlConnection(cadenaConexion))
+                using (SqlCommand comando = new SqlCommand(
+                    "dbo.[pa_ActualizarTicket]", conexion))
+                {
+                    comando.CommandType = CommandType.StoredProcedure;
+
+                    comando.Parameters.Add("@id_ticket",
+                        SqlDbType.NVarChar, 100).Value = ticket.id_ticket;
+
+                    comando.Parameters.Add("@fk_id_usuario_asignado",
+                        SqlDbType.NVarChar, 100).Value = ticket.fk_id_usuario_asignado;
+
+                    comando.Parameters.Add("@fk_id_estado_ticket",
+                        SqlDbType.NVarChar, 100).Value = ticket.fk_id_estado_ticket;
+              
+
+                    conexion.Open();
+
+                    comando.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+     }
 }
 
