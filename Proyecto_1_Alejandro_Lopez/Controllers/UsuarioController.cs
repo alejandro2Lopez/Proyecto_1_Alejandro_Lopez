@@ -38,5 +38,41 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
             }
 
         }
+        [HttpPost]
+        public ActionResult validarUsuario(string email, string contrasenia)
+        {
+            Usuario usuario = UsuarioData.getInstance().ValidarUsuario(email, contrasenia);
+            if (usuario!=null)
+            {
+                Session["UsuarioId"] = usuario.id_usuario;
+                Session["NombreUsuario"] = usuario.nombre_usuario;
+                Session["RolId"] = usuario.fk_id_rol;
+                return Json(new
+                {
+                    status = 200,
+                    message = "Bienvenido: " + usuario.nombre_usuario
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    status = 403,
+                    message = "Acceso prohibido intente de nuevo."
+                }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        [HttpGet]
+        public ActionResult ObtenerUsuariosAsignables()
+        {
+            List<Usuario> usuarios = UsuarioData.getInstance().obtenerUsuariosAsignables();
+           
+                return Json(new
+                {
+                    status = 200,
+                    message = usuarios
+                }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
