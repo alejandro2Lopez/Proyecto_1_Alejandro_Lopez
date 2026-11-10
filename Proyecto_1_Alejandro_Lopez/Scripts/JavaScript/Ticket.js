@@ -134,7 +134,7 @@ function GetListaTicket() {
                 $("#tablaTickets").append(fila);
 
             });
-
+              actualizarIndicadores();
         },
 
         error: function (xhr) {
@@ -476,6 +476,35 @@ $("#filtroBusqueda").on("input", function () {
 $("#filtroEstado").on("change", function () {
     filtrarTickets();
 });
+
+function actualizarIndicadores() {
+
+  
+    if ($("#pTotalTicket").length === 0) {
+        return;
+    }
+
+    const abiertos = listaTickets.filter(
+        t => Number(t.fk_id_estado_ticket) === 1
+    ).length;
+
+    const enProceso = listaTickets.filter(
+        t => Number(t.fk_id_estado_ticket) === 2
+    ).length;
+
+    const resueltos = listaTickets.filter(
+        t => Number(t.fk_id_estado_ticket) === 3
+    ).length;
+
+    const cerrados = listaTickets.filter(
+        t => Number(t.fk_id_estado_ticket) === 4
+    ).length;
+
+    $("#pTotalTicket").text(abiertos);
+    $("#pendingTotalTicket").text(enProceso);
+    $("#totalTicket").text(resueltos);
+    $("#solveTotalTicket").text(cerrados);
+}
 function mostrarTickets(tickets) {
 
     $("#tablaTickets").empty();
