@@ -19,6 +19,13 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
         [HttpPost]
         public ActionResult InsertarTicket(Ticket ticket)
         {
+            if (Session["UsuarioId"] == null)
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
+            ticket.fk_id_usuario_solicitante =
+                Convert.ToInt32(Session["UsuarioId"]);
             bool result = TicketData.getInstance().CrearTicket(ticket);
             if (result)
             {
@@ -61,9 +68,9 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
 
         }
         [HttpGet]
-        public ActionResult GetComentariosId(int id)
+        public ActionResult GetComentariosId(int id_ticket)
         {
-            List<Comentario> result = TicketData.getInstance().GetComentariosPorId(id);
+            List<Comentario> result = TicketData.getInstance().GetComentariosPorId(id_ticket);
            
                 return Json(new
                 {
@@ -76,7 +83,12 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
         [HttpGet]
         public ActionResult GetListaTicket()
         {
-            List<Ticket> result = TicketData.getInstance().GetTickets();
+            if (Session["UsuarioId"] == null)
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
+            List<Ticket> result = TicketData.getInstance().GetTickets(Convert.ToInt32(Session["UsuarioId"]), Convert.ToInt32(Session["RolId"]));
 
             return Json(new
             {
@@ -89,6 +101,19 @@ namespace Proyecto_1_Alejandro_Lopez.Controllers
         [HttpPost]
         public ActionResult ActualizarTicket(Ticket ticket)
         {
+            if (Session["UsuarioId"] == null)
+            {
+                return new HttpStatusCodeResult(401);
+            }
+
+            int rol = Convert.ToInt32(Session["RolId"] ?? 0);
+
+            if (rol != 1)
+            {
+                return new HttpStatusCodeResult(403);
+            }
+
+
             bool result = TicketData.getInstance().ActualizarTicket(ticket);
             if (result)
             {

@@ -86,7 +86,7 @@ namespace Proyecto_1_Alejandro_Lopez.Data
                     comando.Parameters.Add("@fk_id_usuario_solicitante",
                         SqlDbType.NVarChar, 100).Value = ticket.fk_id_usuario_solicitante;
                     comando.Parameters.Add("@fk_id_categoria",
-                       SqlDbType.NVarChar, 100).Value = ticket.fk_id_usuario_solicitante;
+                       SqlDbType.NVarChar, 100).Value = ticket.fk_id_categoria;
 
 
 
@@ -184,7 +184,8 @@ namespace Proyecto_1_Alejandro_Lopez.Data
             return comentarios;
         }
 
-        public List<Ticket> GetTickets()
+
+        public List<Ticket> GetTickets(int idUsuario, int rol)
         {
             List<Ticket> tickets = new List<Ticket>();
 
@@ -196,8 +197,20 @@ namespace Proyecto_1_Alejandro_Lopez.Data
             {
                 string query = @"SELECT * FROM [dbo].[vw_TicketsDetalle]";
 
+                // Si no es administrador, filtrar por usuario
+                if (rol != 1)
+                {
+                    query += " WHERE fk_id_usuario_solicitante = @idUsuario";
+                }
+
                 using (SqlCommand comando = new SqlCommand(query, conexion))
                 {
+                    if (rol != 1)
+                    {
+                        comando.Parameters.Add("@idUsuario", SqlDbType.Int)
+                            .Value = idUsuario;
+                    }
+
                     conexion.Open();
 
                     using (SqlDataReader reader = comando.ExecuteReader())
@@ -224,9 +237,10 @@ namespace Proyecto_1_Alejandro_Lopez.Data
                                     reader["fecha_creacion"]),
 
                                 fecha_actualizacion =
-                                    (DateTime)(reader["fecha_actualizacion"] == DBNull.Value
-                                    ? (DateTime?)null
-                                    : Convert.ToDateTime(reader["fecha_actualizacion"])),
+                             (DateTime)(reader["fecha_actualizacion"] == DBNull.Value
+                             ? (DateTime?)null
+                             : Convert.ToDateTime(reader["fecha_actualizacion"])),
+
 
                                 fk_id_categoria = Convert.ToByte(
                                     reader["fk_id_categoria"]),
@@ -249,6 +263,7 @@ namespace Proyecto_1_Alejandro_Lopez.Data
 
             return tickets;
         }
+
 
 
 
